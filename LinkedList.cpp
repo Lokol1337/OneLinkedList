@@ -1,8 +1,10 @@
-﻿#pragma once
+#pragma once
 #include <iostream>
 #include "LinkedList.h"
 #include <cassert>
-#include <utility>
+//#include <utility>
+//#include <execution>
+#include <stdexcept>
 
 using namespace std;
 
@@ -67,6 +69,7 @@ LinkedList& LinkedList::operator=(const LinkedList& copyList)
 	this->_size = bufList->_size;
 	this->_head = bufList->_head;
 	return *this;
+	delete bufList;
 }
 
 LinkedList::LinkedList(LinkedList&& moveList) noexcept
@@ -159,38 +162,38 @@ void LinkedList::pushFront(const ValueType& value)
 
 void LinkedList::remove(const size_t pos)
 {
-    if(_head)
-        {
-        if(pos != 0)
-        {
-            int counter = 0;
-            Node *tmp = _head;
-            while(counter <= pos)
-            {
-                tmp = tmp->next;
-                counter++;
-            }
-            counter=0;
-            Node *nd = _head;
-            while(counter < pos-1)
-            {
-                nd = nd->next;
-                counter++;
-            }
-            _size--;
-            nd->next = tmp;
-        }
-        else
-        {
-            Node *tmp = _head;
-            tmp = tmp->next;
-            delete _head;
-            _size--;
-            _head = tmp;
-            }
-        }
-    else
-        cout<<"The list is empty!" << endl;
+	if (_head)
+	{
+		if (pos != 0)
+		{
+			int counter = 0;
+			Node* tmp = _head;
+			while (counter <= pos)
+			{
+				tmp = tmp->next;
+				counter++;
+			}
+			counter = 0;
+			Node* nd = _head;
+			while (counter < pos - 1)
+			{
+				nd = nd->next;
+				counter++;
+			}
+			_size--;
+			nd->next = tmp;
+		}
+		else
+		{
+			Node* tmp = _head;
+			tmp = tmp->next;
+			delete _head;
+			_size--;
+			_head = tmp;
+		}
+		}
+		else
+			throw out_of_range("List is empty");
 }
 
 void LinkedList::removeNextNode(Node* node)
@@ -358,6 +361,8 @@ void LinkedList::forceNodeDelete(Node* node)
 	a.removeBack();
 	a.removeBack();
 	a.removeBack();
-	//cout << a[2];
+	cout << a[2];
 	cout << b[2];
+	
+	a.remove(1);
 }*/
